@@ -31,7 +31,7 @@ python mwsripper.py <Sprite Header> <Sprite Data>
 ```
 
 ##### Convert folder of rips to PNG
-This mode will read an entire folder of sprite rips and convert them to PNG. The outputted PNGs will be dumped to a folder called "Converted". This mode does no error checking, it assumes everything inside a folder is a sprite+header file combo. This is best used with a folder that was ripped using the [Rip from PXO](#rip_from_pxo) mode.
+This mode will read an entire folder of sprite rips and convert them to PNG. The outputted PNGs will be dumped to a folder called "Converted". This mode does no error checking, it assumes everything inside a folder is a sprite+header file combo. This is best used with a folder that was ripped using the [Rip from PXO](#rip-from-pxo) mode.
 ```
 python mwsripper.py <Folder with sprite data and headers>
 ```
