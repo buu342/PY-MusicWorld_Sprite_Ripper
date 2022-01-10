@@ -37,7 +37,7 @@ python mwsripper.py <Folder with sprite data and headers>
 ```
 
 ### Problems
-Besides what was outlined in the very top of the README, I am not aware of any major bugs with the script. If any arise, please open [an issue](issues].
+Besides what was outlined in the very top of the README, I am not aware of any major bugs with the script. If any arise, please open [an issue](issues).
 
 
 ### Future work
