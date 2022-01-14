@@ -267,6 +267,7 @@ def rip_sprites(pxo_path):
     fpxo.seek(SPRITE_START)
     
     # Now start ripping and dumping into the ripped folder
+    skipped = 0
     while fpxo.tell() < SPRITE_END:
         start = fpxo.tell()
         
@@ -275,6 +276,7 @@ def rip_sprites(pxo_path):
         
         # First, check if the image header is valid
         if (type < IMAGETYPE_1BIT or type > IMAGETYPE_8BIT):
+            skipped = skipped + 1
             continue
             
         name_header  = "Ripped/"+str(count).zfill(4)+"_header.bin"
@@ -288,6 +290,8 @@ def rip_sprites(pxo_path):
         
         # If the image is too big or small, it's probably not a sprite
         if (width > SPRITE_MAXW or height > SPRITE_MAXH or width == 0 or height == 0):
+            fpxo.seek(start+1)
+            print("Bad sprite size "+str(width)+" x "+str(height)+".")
             continue
             
         # Skip unknown bytes
@@ -295,18 +299,33 @@ def rip_sprites(pxo_path):
         
         # Get the palette count, and check if it's valid for the image type
         pcount = fpxo.read(1)[0]
-        if (pcount == 0):
+        if (type != IMAGETYPE_1BIT and pcount <= 1):
+            skipped = skipped + 1
+            fpxo.seek(start+1)
+            print("Bad palette count "+str(pcount)+".")
             continue
         if (type == IMAGETYPE_1BIT):
             if (pcount > 2):
+                skipped = skipped + 1
+                fpxo.seek(start+1)
+                print("Bad palette count for 1 bit sprite "+str(pcount)+".")
                 continue
         elif (type == IMAGETYPE_2BIT):
             if (pcount > 4):
+                skipped = skipped + 1
+                fpxo.seek(start+1)
+                print("Bad palette count for 2 bit sprite "+str(pcount)+".")
                 continue
         elif (type == IMAGETYPE_4BIT):
             if (pcount > 16):
+                skipped = skipped + 1
+                fpxo.seek(start+1)
+                print("Bad palette count for 4 bit sprite "+str(pcount)+".")
                 continue
-        print("Found sprite "+str(count).zfill(4)+" at "+hex(start)+". Type = "+hex(type)+", "+str(width)+"x"+str(height)+", "+str(pcount)+" colors.")
+        if (skipped == 0):
+            print("Found sprite "+str(count).zfill(4)+" at "+hex(start)+". Type = "+hex(type)+", "+str(width)+"x"+str(height)+", "+str(pcount)+" colors.")
+        else:
+            print("Found sprite "+str(count).zfill(4)+" at "+hex(start)+". Type = "+hex(type)+", "+str(width)+"x"+str(height)+", "+str(pcount)+" colors. Skipped "+str(skipped)+".")
         
         # Calculate the image size (in bytes)
         if (type == IMAGETYPE_1BIT):
@@ -329,6 +348,7 @@ def rip_sprites(pxo_path):
         fout.write(data)
         fout.close()
         count = count + 1
+        skipped = 0
     
     # Finished
     print("Finished dumping sprites")
