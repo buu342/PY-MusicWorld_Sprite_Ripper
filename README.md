@@ -8,6 +8,8 @@ I had to make some assumptions about the data itself (specifically `SPRITE_MAXW/
 ### Prerequisites
 First, you need to have Python 3 installed, there's [online guides](https://realpython.com/installing-python/) for doing that if you don't know how.
 
+Then you need to install pillow and numpy with pipi install pillow and pip install numpy
+
 Next, you'll need a copy of the Music World PXO. You can either rip this from your own phone, or find one online. I won't provide those for you.
 
 Finally, you will need to uncompress the PXO. This can be done using a tool such as [LGUI](https://code.google.com/archive/p/lgui/).
