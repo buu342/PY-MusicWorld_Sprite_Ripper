@@ -17,7 +17,7 @@ from pathlib import Path
 # Start and end offsets in the uncompressed.pxo where sprites are located
 # Values obtained by estimating via 'Image Search Editor'
 SPRITE_START = 0x11155C
-SPRITE_END   = 0x80CFFC
+SPRITE_END   = 0x80CFFC # Currently unused
 
 # Maximum sprite width and heights to prevent the tool from going whack because it mistook random data for an image header
 # Values obtained by ripping lots of sprites and then estimating. The largest sprite I found had 514 pixels, so I gave a slightly larger error buffer just in case
@@ -268,7 +268,7 @@ def rip_sprites(pxo_path):
     
     # Now start ripping and dumping into the ripped folder
     skipped = 0
-    while fpxo.tell() < SPRITE_END:
+    while fpxo.tell() < os.fstat(fpxo.fileno()).st_size:
         start = fpxo.tell()
         
         # Get the image type
