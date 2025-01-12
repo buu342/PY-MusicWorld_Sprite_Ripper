@@ -16,6 +16,9 @@ from pathlib import Path
 
 # Start and end offsets in the uncompressed.pxo where sprites are located
 # Values obtained by estimating via 'Image Search Editor'
+# Known offsets:
+# * European version: 0x11155C
+# * Russian version:  0x10D780
 SPRITE_START = 0x11155C
 SPRITE_END   = 0x80CFFC # Currently unused
 
@@ -377,7 +380,7 @@ def main():
             rip_sprites(sys.argv[1]) 
         else:
             # Convert all the sprites in a folder
-            files = os.listdir(sys.argv[1])
+            files = sorted(os.listdir(sys.argv[1]))
             count = 0
             while count < len(files):
                 convert_sprite(sys.argv[1]+"/"+files[count+1], sys.argv[1]+"/"+files[count])
